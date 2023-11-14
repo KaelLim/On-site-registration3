@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $ldapAccount = "tc" . $phone;
-
+    
     if (!checkDuplicate($name, $phone)) {
         $response = submitToCsv([
             'name' => $name,
@@ -130,4 +130,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-~                                                 
