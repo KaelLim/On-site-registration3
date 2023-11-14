@@ -40,13 +40,13 @@
                 <h5>以下是您填寫的資訊，請核對</h5>
                 <p>姓名: <span id="confirmName"></span></p>
                 <p>手機號碼: <span id="confirmPhone"></span></p>
-                
+
                 <div class="credentials">
                     <p>您的帳密如下：</p>
                     <p>帳號: <span id="confirmUsername"></span></p>
                     <p>密碼: <span id="confirmPassword"></span></p>
                 </div>
-                
+
                 <div class="line-instruction">
                     <p>點擊確認後務必加line官方好友，後續教學會使用line官方</p>
                 </div>
@@ -85,6 +85,9 @@
         }
       
         function showConfirmModal() {
+            if (!validateName()){
+                return;
+            }
             const name = $("#name").val().trim();
             const phone = $("#phone").val();
       
@@ -177,10 +180,27 @@
             var modalInstance = M.Modal.getInstance(modalElem);
             modalInstance.close();
         }
+
+        function validateName() {
+            var nameInput = document.getElementById('name');
+            var name = nameInput.value;
+        
+            // 正則表達式檢查名字是否只包含字母和空格
+            if (!/^[a-zA-Z\s]+$/.test(name)) {
+                alert('名字只能包含字母和空格。');
+                return false;
+            }
+            return true;
+        }
+
+
+
       </script>
-      
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
 </html>
+~                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+~                                                
