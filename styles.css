@@ -1,0 +1,193 @@
+
+.line-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00c300; /* Line綠色 */
+    color: #ffffff;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    margin-top: 1em;
+    text-align: center;
+    /* 加入一點陰影 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 按鈕的hover效果 */
+#line-button:hover {
+    background-color: #009900; /* 深一點的綠色 */
+    text-decoration: none; /* 移除hover時的底線 */
+}
+
+  #warning{
+    display: none;
+  }
+  h1{
+    text-align: center;
+    background-color: rgba(255,255,255,0.3);
+    padding: 25px;
+  }
+  body {
+      font-family: 'Roboto', sans-serif;
+      background: url('https://community.tzuchi.org.tw/layout/images/home.jpg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+  }
+
+  #registrationForm {
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  #registrationForm .btn.waves-effect.waves-light {
+      width: 100%;
+      background-color: #4285F4 !important;
+      color: white !important;
+  }
+
+  #registrationForm .btn.waves-effect.waves-light:hover {
+      background-color: #0F7AE5 !important;
+  }
+
+  input[type="text"]:focus {
+      border-bottom: 1px solid #4285F4 !important;
+      box-shadow: 0 1px 0 0 #4285F4 !important;
+  }
+
+  #confirmModal{
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9999;
+  }      
+
+  .modal-content {
+      background-color: #ffffff;  /* 使 modal 內容區域完全不透明 */
+      max-width: 600px;
+      margin: 0 auto;
+  }
+
+  #confirmContent {
+      background-color: #fff;
+      color: #333;
+      padding: 20px;
+      border-radius: 5px;
+  }
+
+  #confirmContent h5 {
+      font-size: 1.5em;
+      color: #f44336;
+  }
+
+  .credentials {
+      background-color: #e1f5fe;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 5px;
+  }
+
+  .line-instruction {
+      color: #43a047;
+      font-weight: bold;
+      margin-bottom: 20px;
+  }
+
+  .modal-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background-color: rgba(255,255,255,0) !important;
+  }
+
+  .modal {
+    max-width: 500px !important;
+    max-height: 500px !important;
+    height : 100% !important;
+  }
+
+  #loadingModal .modal-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+  }
+
+  #loadingModal {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 9999;
+      height: 100%;
+  }
+
+  #loadingModal .modal-content {
+      background-color: transparent; /* 移除透明背景 */
+      border: none;  /* 移除邊框 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100px;
+      width: auto;
+      padding: 0;
+  }
+
+  #loadingModal .modal-message {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+  }
+  @media only screen and (max-width: 992px) {
+      #registrationForm {
+          width: 90%; /* Increase width for smaller screens */
+          margin: 20px auto;
+      }
+    }
+      #registrationForm .btn.waves-effect.waves-light {
+          font-size: 18px; /* Increase font size for better click-ability */
+      }
+      #confirmModal, #loadingModal {
+          width: 90%; /* Increase width for smaller screens */
+          margin: 20px auto;
+      }
+      #confirmContent h5, .credentials p {
+          font-size: 18px; /* Larger font for better readability */
+      }
+      .line-instruction {
+          font-size: 16px; /* Larger font for better readability */
+      }
+      .modal-footer {
+          flex-direction: column; /* Make the buttons stack vertically */
+          height: 100% !important;
+      }
+      .modal-footer .btn {
+          width: 100%;
+          margin: 5px 0; /* Add margin between the stacked buttons */
+      }
+      .modal {
+        max-height: 700px !important;
+        height : 75% !important;
+      }
+
+  @media only screen and (max-width: 426px) {
+      .modal {
+        max-height: 700px !important;
+        height : 85% !important;
+      }
+
+  }
