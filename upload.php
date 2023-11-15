@@ -42,17 +42,16 @@ function submitToCsv($data) {
         }
     }
 
-    // 寫入資料到該行
+    // 寫入資料到該行，暫時不包括 user_id
     $lineData = [
         $data['name'],
         $data['phone'],
         $data['ldapAccount']
     ];
 
+    // 將現有數據寫入 CSV
     $fileContent[$firstEmptyRow] = implode(',', $lineData) . "\n";
     file_put_contents($csvFile, implode('', $fileContent));
-
-    writeToImportCsv($data);
 
     // Send data to the API
     $apiUrl = 'https://community.tzuchi.org.tw/api/user';
@@ -77,14 +76,27 @@ function submitToCsv($data) {
     $response = curl_exec($ch);
 
     if (curl_errno($ch)) {
-        // Handle error, e.g. print the error message
+        // Handle error
         echo 'Curl error: ' . curl_error($ch);
+    } else {
+        $responseData = json_decode($response, true);
+        if (isset($responseData['user_id'])) {
+            // 更新 CSV 文件以包括 user_id
+            $lineData[] = $responseData['user_id'];
+            $fileContent[$firstEmptyRow] = implode(',', $lineData) . "\n";
+            file_put_contents($csvFile, implode('', $fileContent));
+
+            writeToImportCsv($data);
+
+            curl_close($ch);
+            return ['result' => 'success', 'row' => $firstEmptyRow + 1, 'user_id' => $responseData['user_id']];
+        }
     }
 
     curl_close($ch);
-
-    return ['result' => 'success', 'row' => $firstEmptyRow + 1];
+    return ['result' => 'failure'];
 }
+
 
 
 function checkDuplicate($name, $phone) {
