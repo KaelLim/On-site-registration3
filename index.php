@@ -1,3 +1,7 @@
+<?php
+$settings = json_decode(file_get_contents('settings.json'), true);
+?>
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 
@@ -10,10 +14,17 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script>
+        // 將設定作為 JavaScript 變量嵌入
+        var settings = {
+            pageTitle: "<?php echo addslashes($settings['pageTitle']); ?>",
+            lineGroup: "<?php echo addslashes($settings['lineGroup']); ?>"
+        };
+    </script>
 </head>
 
 <body>
-  <h1>11/18 臺北場共修<br>現場志工練習帳號申請系統</h1>
+    <h1><?php echo $settings['pageTitle']; ?></h1>
     <form id="registrationForm" action="upload.php" method="post">
         <div class="input-field">
             <input type="text" id="name" name="name" required>
@@ -61,6 +72,9 @@
         <div class="modal-content">
             <h5>帳號查詢</h5>
             <p>此名稱和電話號碼已註冊！</p>
+            <p>姓名: <span id="duplicateName"></span></p> <!-- 用於顯示原始姓名 -->
+            <p>手機號碼: <span id="duplicatePhone"></span></p> <!-- 用於顯示手機號碼 -->
+            <p>帳密: <span id="duplicateID"></span></p> <!-- 用於顯示手機號碼 -->
             <div class="modal-footer">
                 <button class="btn waves-effect waves-light" onclick="hideDuplicateModal()">關閉</button>
             </div>
@@ -70,7 +84,7 @@
         <div class="modal-content">
             <h5>完成註冊!</h5>
             <p>請點擊以下連結加入 LINE 官方好友:</p>
-            <a class="line-button" href="https://line.me/R/ti/p/@052bywpq" target="_blank">官方好友</a>
+            <a class="line-button" href="https://line.me/R/ti/p/<?php echo $settings['lineGroup']; ?>" target="_blank">官方好友</a>
         </div>
     </div>
 
@@ -99,10 +113,13 @@
                 return;
             }
       
-            $.post("check_duplicate.php", { name: name, phone: phone }, function(response) {
-            if (response.isDuplicate) {
-                showDuplicateModal();
-            } else {
+            $.post("check_duplicate.php", { phone: phone }, function(response) {
+                if (response.isDuplicate) {
+                    $("#duplicateName").text(response.originalName); // 顯示原始姓名
+                    $("#duplicatePhone").text(phone); // 顯示手機號碼
+                    $("#duplicateID").text("tc" + phone); // 顯示手機號碼
+                    showDuplicateModal();
+                } else {
                 $("#confirmName").text(name);
                 $("#confirmPhone").text(phone);
                 $("#confirmUsername").text("tc" + phone);
@@ -154,11 +171,12 @@
                 $("button").prop("disabled", false);
       
                 if (response.result === "success") {
+                    const lineUrl = "https://line.me/R/ti/p/" + settings.lineGroup;
                     if (isMobileDevice()) {
-                        window.location.href = "line://ti/p/@052bywpq";
+                        window.location.href = "line://ti/p/" + settings.lineGroup;
                         showSafariModal();
                     } else {
-                        window.open("https://line.me/R/ti/p/@052bywpq", '_self');
+                        window.open(lineUrl, '_self');
                     }
                 } else {
                     alert("註冊失敗，請再試一次!");
