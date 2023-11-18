@@ -34,6 +34,25 @@ $settings = json_decode(file_get_contents('settings.json'), true);
             <input type="text" id="phone" name="phone" pattern="09[0-9]{8}" required>
             <label for="phone">手機號碼</label>
         </div>
+
+            <p>
+            <label>
+                <input type="checkbox" name="groups[]" value="宜蘭">
+                <span>合心 - 宜蘭</span>
+            </label>
+            </p>
+            <p>
+            <label>
+                <input type="checkbox" name="groups[]" value="臺東">
+                <span>合心 - 臺東</span>
+            </label>
+            </p>
+            <p>
+            <label>
+                <input type="checkbox" name="groups[]" value="花蓮">
+                <span>合心 - 花蓮</span>
+            </label>
+            </p>        
         <button class="btn waves-effect waves-light" type="button" onclick="showConfirmModal()">註冊 / 帳號查詢</button>
     </form>
 
@@ -51,6 +70,7 @@ $settings = json_decode(file_get_contents('settings.json'), true);
                 <h5>以下是您填寫的資訊，請核對</h5>
                 <p>姓名: <span id="confirmName"></span></p>
                 <p>手機號碼: <span id="confirmPhone"></span></p>
+                <p>選擇的群組: <span id="confirmGroups"></span></p>
                 
                 <div class="credentials">
                     <p>您的帳密如下：</p>
@@ -112,7 +132,15 @@ $settings = json_decode(file_get_contents('settings.json'), true);
                 alert("請正確填寫手機號碼，必須是09開始，總數10碼(含09)。");
                 return;
             }
-      
+              
+            var selectedGroups = [];
+            $("input[name='groups[]']:checked").each(function() {
+                selectedGroups.push($(this).val());
+            });
+
+            var groupsText = selectedGroups.join(", ");
+            $("#confirmGroups").text(groupsText); // 顯示選擇的群組
+            
             $.post("check_duplicate.php", { phone: phone }, function(response) {
                 if (response.isDuplicate) {
                     $("#duplicateName").text(response.originalName); // 顯示原始姓名
