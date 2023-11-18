@@ -110,7 +110,7 @@ $line = isset($_GET['line']) ? explode(',', $_GET['line']) : null;
                 <input type="hidden" name="originalLine" value="<?= implode(',', $line) ?>">
                 <label>姓名: <input type="text" name="name" value="<?= htmlspecialchars($line[0]) ?>"></label><br>
                 <label>手機號碼: <input type="text" name="phone" value="<?= htmlspecialchars($line[1]) ?>"></label><br>
-                <label>LDAP 帳號: <input type="text" name="ldapAccount" value="<?= htmlspecialchars($line[2]) ?>"></label><br>
+                <label>LDAP 帳號: <input type="text" name="ldapAccount" value="<?= htmlspecialchars($line[3]) ?>"></label><br>
                 <input type="submit" value="更新">
             </form>
         <?php else: ?>
