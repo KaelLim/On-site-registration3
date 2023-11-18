@@ -34,25 +34,28 @@ $settings = json_decode(file_get_contents('settings.json'), true);
             <input type="text" id="phone" name="phone" pattern="09[0-9]{8}" required>
             <label for="phone">手機號碼</label>
         </div>
+        <div class="input-field">
+            <p>選擇的地區: <span id="confirmGroup"></span></p>
+            <p>
+                <label>
+                    <input type="radio" name="group" value="宜蘭" />
+                    <span>宜蘭</span>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="radio" name="group" value="花蓮" />
+                    <span>花蓮</span>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <input type="radio" name="group" value="臺東" />
+                    <span>臺東</span>
+                </label>
+            </p>
+        </div>
 
-            <p>
-            <label>
-                <input type="checkbox" name="groups[]" value="宜蘭">
-                <span>合心 - 宜蘭</span>
-            </label>
-            </p>
-            <p>
-            <label>
-                <input type="checkbox" name="groups[]" value="臺東">
-                <span>合心 - 臺東</span>
-            </label>
-            </p>
-            <p>
-            <label>
-                <input type="checkbox" name="groups[]" value="花蓮">
-                <span>合心 - 花蓮</span>
-            </label>
-            </p>        
         <button class="btn waves-effect waves-light" type="button" onclick="showConfirmModal()">註冊 / 帳號查詢</button>
     </form>
 
@@ -70,12 +73,13 @@ $settings = json_decode(file_get_contents('settings.json'), true);
                 <h5>以下是您填寫的資訊，請核對</h5>
                 <p>姓名: <span id="confirmName"></span></p>
                 <p>手機號碼: <span id="confirmPhone"></span></p>
-                <p>選擇的群組: <span id="confirmGroups"></span></p>
+                <p>合心: <span id="confirmGroup1"></span></p>
                 
                 <div class="credentials">
                     <p>您的帳密如下：</p>
                     <p>帳號: <span id="confirmUsername"></span></p>
                     <p>密碼: <span id="confirmPassword"></span></p>
+                    <p>合心: <span id="confirmGroup2"></span></p>
                 </div>
                 
                 <div class="line-instruction">
@@ -121,6 +125,8 @@ $settings = json_decode(file_get_contents('settings.json'), true);
         function showConfirmModal() {
             const name = $("#name").val().trim();
             const phone = $("#phone").val();
+            const selectedGroup = $("input[name='group']:checked").val();
+            console.log("Selected group:", selectedGroup);
       
             if (!name) {
                 alert("請填寫姓名。");
@@ -132,15 +138,12 @@ $settings = json_decode(file_get_contents('settings.json'), true);
                 alert("請正確填寫手機號碼，必須是09開始，總數10碼(含09)。");
                 return;
             }
-              
-            var selectedGroups = [];
-            $("input[name='groups[]']:checked").each(function() {
-                selectedGroups.push($(this).val());
-            });
 
-            var groupsText = selectedGroups.join(", ");
-            $("#confirmGroups").text(groupsText); // 顯示選擇的群組
-            
+            if (!selectedGroup) {
+                alert("請選擇您的所在地。");
+                return;
+            }
+                
             $.post("check_duplicate.php", { phone: phone }, function(response) {
                 if (response.isDuplicate) {
                     $("#duplicateName").text(response.originalName); // 顯示原始姓名
@@ -152,6 +155,9 @@ $settings = json_decode(file_get_contents('settings.json'), true);
                 $("#confirmPhone").text(phone);
                 $("#confirmUsername").text("tc" + phone);
                 $("#confirmPassword").text("tc" + phone);
+                $("#confirmGroup1").text(selectedGroup);
+                $("#confirmGroup2").text(selectedGroup);
+
 
                 var modalElem = $('#confirmModal');
                 var modalInstance = M.Modal.getInstance(modalElem);
