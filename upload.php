@@ -47,6 +47,7 @@ function submitToCsv($data) {
         $data['name'],
         $data['phone'],
         $data['ldapAccount']
+        $data['groups']  // 新增群組信息
     ];
 
     // 將現有數據寫入 CSV
@@ -118,12 +119,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $ldapAccount = "tc" . $phone;
+    $groups = isset($_POST['groups']) ? implode(", ", $_POST['groups']) : "";
     
     if (!checkDuplicate($name, $phone)) {
         $response = submitToCsv([
             'name' => $name,
             'phone' => $phone,
             'ldapAccount' => $ldapAccount
+            'groups' => $groups  // 添加群組信息
         ]);
 
         if ($response['result'] === 'success') {
